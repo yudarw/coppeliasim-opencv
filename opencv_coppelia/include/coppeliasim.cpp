@@ -47,14 +47,14 @@ void CoppeliaSim::stopSimulation() {
 void CoppeliaSim::addObject(int handle, float pos[3]) {
 	int* newObjHandle;
 	int objCnt;
-	simxCopyPasteObjects(clientID, &handle, 1, &newObjHandle, &objCnt, simx_opmode_oneshot_wait);
-	simxSetObjectPosition(clientID, newObjHandle[0], -1, pos, simx_opmode_oneshot_wait);
+	simxCopyPasteObjects(clientID, &handle, 1, &newObjHandle, &objCnt, simx_opmode_blocking);
+	simxSetObjectPosition(clientID, newObjHandle[0], -1, pos, simx_opmode_blocking);
 	simxSetObjectInt32Param(clientID, newObjHandle[0], sim_shapeintparam_static, 0, simx_opmode_blocking);
 }
 
 // Coppeliasim 
 void CoppeliaSim::removeObject(int handle){
-	simxRemoveObject(clientID, handle, simx_opmode_oneshot_wait);
+	simxRemoveObject(clientID, handle, simx_opmode_blocking);
 }
 
 
@@ -506,14 +506,13 @@ int CoppeliaSensor::get_state() {
 	return (int) data.state;
 }
 
-// Read force sensor
-void CoppeliaSensor::read_force(float data_force[6])
+void CoppeliaSensor::readForce(float dataForce[6]) 
 {
 	simxUChar state;
 	float force[3], torque[3];
 	simxReadForceSensor(clientID, sensor_handle, &state, force, torque, simx_opmode_buffer);
 	for (int i = 0; i < 3; i++) {
-		data_force[i] = force[i];
-		data_force[i + 3] = torque[i];
+		dataForce[i] = force[i];
+		dataForce[i + 3] = torque[i];
 	}
 }

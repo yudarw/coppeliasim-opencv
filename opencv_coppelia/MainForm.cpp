@@ -121,7 +121,7 @@ void MainForm::btn_read_robot_joint_pos() {
 
 void MainForm::btn_read_force_sensor() {
 	float force[6];
-	forceSensor.read_force(force);
+	forceSensor.readForce(force);
 	printf("Robot joint pos: %.3f, %.3f, %.3f \n", force[0], force[1], force[2]);
 }
 

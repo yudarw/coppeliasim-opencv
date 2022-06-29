@@ -19,6 +19,19 @@ using namespace std;
 #define DEG_TO_RAD (3.141592/180)
 
 
+
+typedef struct prox_t {
+	simxUChar state;
+	float objPoint[3];
+	float objNorm[3];
+	int objHandle;
+};
+
+enum { omniplatform, pioneer, kuka_youbot };
+enum { vision_sensor, force_sensor, proximity_sensor };
+
+
+
 // ===================================== //
 //			Class Coppeliasim
 // ===================================== //
@@ -76,10 +89,6 @@ public:
 	void getObjectMatrix(float M[4][4]);
 };
 
-
-enum { omniplatform, pioneer, kuka_youbot };
-enum { vision_sensor, force_sensor, proximity_sensor };
-
 // ============================================== //
 //			Class for mobile robot
 // ============================================== //
@@ -100,12 +109,6 @@ public:
 // ============================================== //
 //					Class sensor 
 // ============================================== //
-typedef struct prox_t {
-	simxUChar state;
-	float objPoint[3];
-	float objNorm[3];
-	int objHandle;
-};
 
 class CoppeliaSensor : public CoppeliaSim {
 private:
@@ -123,6 +126,6 @@ public:
 	int		init();
 	void	get_image(simxUChar ** img, int res[2]);
 	int		get_state();
-	void	read_force(float data_force[6]);
+	void	readForce(float dataforce[6]);
 };
 
