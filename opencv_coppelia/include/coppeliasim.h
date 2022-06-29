@@ -111,21 +111,25 @@ public:
 // ============================================== //
 
 class CoppeliaSensor : public CoppeliaSim {
-private:
-	int sensor_handle;
-	int sensor_type;
-	string sensor_name;
-	simxUChar* image;
-	int resolution[2];
-
 public:
 	prox_t data;
 
 public:
 	CoppeliaSensor(int type, string name);
 	int		init();
-	void	get_image(simxUChar ** img, int res[2]);
+	void	get_image(simxUChar** img, int res[2]);
 	int		get_state();
 	void	readForce(float dataforce[6]);
+
+private:
+	int sensor_handle;
+	int sensor_type;
+	string sensor_name;
+	simxUChar* image;
+	int resolution[2];
+	simxUChar state;
+	float force[3];
+	float torque[3];
+
 };
 

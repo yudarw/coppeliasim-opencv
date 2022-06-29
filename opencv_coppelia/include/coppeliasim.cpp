@@ -269,7 +269,6 @@ void CoppeliaRobot::readJointPosition(float joint_pos[6])
 // Get robot moving status. Return TRUE if the robot is moving and
 // return FALSE is robot is stop.
 bool CoppeliaRobot::isMoving() {
-	Sleep(50);
 	simxGetIntegerSignal(clientID, "moving_status", &moving, simx_opmode_buffer);
 	if (moving) return true;
 	else return false;
@@ -394,7 +393,6 @@ void CoppeliaRobot::setSpeed(int velocity)
 
 	float vel_data[2] = {lin_vel, ang_vel};
 
-
 	int result = simxCallScriptFunction(
 		clientID,
 		scriptName.c_str(),						// the name of the associated obejct script
@@ -415,9 +413,9 @@ void CoppeliaRobot::setSpeed(int velocity)
 
 
 
-
-// ================== Coppelia Mobile Robot ========================= //
-
+//////////////////////////////////////////////////////////////////
+//					Coppelia Mobile Robot						//
+//////////////////////////////////////////////////////////////////
 
 CoppeliaRobotMobile::CoppeliaRobotMobile(int type, string name) {
 	robot_name = name;
@@ -465,15 +463,21 @@ void CoppeliaRobotMobile::move(float v_left, float v_right) {
 
 
 
-// ================== Coppelia Sensor ========================= //
-CoppeliaSensor::CoppeliaSensor(int type, string name) {
+//////////////////////////////////////////////////////////////////
+//						Coppelia Sensor						    //
+//////////////////////////////////////////////////////////////////
+
+CoppeliaSensor::CoppeliaSensor(int type, string name) 
+{
 	sensor_type = type;
 	sensor_name = name;
 }
 
-int CoppeliaSensor::init() {
-	simxGetObjectHandle(clientID, sensor_name.c_str(), &sensor_handle, simx_opmode_blocking);
-	
+int CoppeliaSensor::init() 
+{
+	int ret = simxGetObjectHandle(clientID, sensor_name.c_str(), &sensor_handle, simx_opmode_blocking);
+	if (ret != simx_return_ok) return 0;
+
 	if (sensor_handle != 0) {
 		if (sensor_type == vision_sensor) {
 			simxGetVisionSensorImage(clientID, sensor_handle, resolution, &image, 0, simx_opmode_streaming);
@@ -497,19 +501,19 @@ int CoppeliaSensor::init() {
 	return sensor_handle;
 }
 
-void CoppeliaSensor::get_image(simxUChar** img, int res[2]) {
+void CoppeliaSensor::get_image(simxUChar** img, int res[2]) 
+{
 	simxGetVisionSensorImage(clientID, sensor_handle, res, img, 0, simx_opmode_buffer);
 }
 
-int CoppeliaSensor::get_state() {
-	simxReadProximitySensor(clientID, sensor_handle, &data.state, data.objPoint, &data.objHandle, data.objNorm, simx_opmode_buffer);
+int CoppeliaSensor::get_state() 
+{
+	int ret = simxReadProximitySensor(clientID, sensor_handle, &data.state, data.objPoint, &data.objHandle, data.objNorm, simx_opmode_buffer);
 	return (int) data.state;
 }
 
 void CoppeliaSensor::readForce(float dataForce[6]) 
 {
-	simxUChar state;
-	float force[3], torque[3];
 	simxReadForceSensor(clientID, sensor_handle, &state, force, torque, simx_opmode_buffer);
 	for (int i = 0; i < 3; i++) {
 		dataForce[i] = force[i];
