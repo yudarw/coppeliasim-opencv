@@ -42,6 +42,9 @@ namespace opencvcoppelia {
 	private: System::Windows::Forms::Button^ button4;
 	private: System::Windows::Forms::Button^ button5;
 	private: System::Windows::Forms::TextBox^ textBox1;
+	private: System::Windows::Forms::Button^ button6;
+	private: System::Windows::Forms::Button^ button7;
+	private: System::Windows::Forms::Button^ button8;
 	private: System::ComponentModel::IContainer^ components;
 	protected:
 
@@ -67,6 +70,9 @@ namespace opencvcoppelia {
 			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->button5 = (gcnew System::Windows::Forms::Button());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->button6 = (gcnew System::Windows::Forms::Button());
+			this->button7 = (gcnew System::Windows::Forms::Button());
+			this->button8 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -140,11 +146,44 @@ namespace opencvcoppelia {
 			this->textBox1->Size = System::Drawing::Size(31, 20);
 			this->textBox1->TabIndex = 6;
 			// 
+			// button6
+			// 
+			this->button6->Location = System::Drawing::Point(327, 477);
+			this->button6->Name = L"button6";
+			this->button6->Size = System::Drawing::Size(120, 23);
+			this->button6->TabIndex = 7;
+			this->button6->Text = L"Read Robot Position";
+			this->button6->UseVisualStyleBackColor = true;
+			this->button6->Click += gcnew System::EventHandler(this, &MainForm::button6_Click);
+			// 
+			// button7
+			// 
+			this->button7->Location = System::Drawing::Point(154, 477);
+			this->button7->Name = L"button7";
+			this->button7->Size = System::Drawing::Size(167, 23);
+			this->button7->TabIndex = 8;
+			this->button7->Text = L"Read Robot Joint Position";
+			this->button7->UseVisualStyleBackColor = true;
+			this->button7->Click += gcnew System::EventHandler(this, &MainForm::button7_Click);
+			// 
+			// button8
+			// 
+			this->button8->Location = System::Drawing::Point(28, 477);
+			this->button8->Name = L"button8";
+			this->button8->Size = System::Drawing::Size(120, 23);
+			this->button8->TabIndex = 9;
+			this->button8->Text = L"Read Force";
+			this->button8->UseVisualStyleBackColor = true;
+			this->button8->Click += gcnew System::EventHandler(this, &MainForm::button8_Click);
+			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(459, 428);
+			this->ClientSize = System::Drawing::Size(459, 512);
+			this->Controls->Add(this->button8);
+			this->Controls->Add(this->button7);
+			this->Controls->Add(this->button6);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->button5);
 			this->Controls->Add(this->button4);
@@ -168,8 +207,11 @@ namespace opencvcoppelia {
 		void btn_read_proximity();
 		void btn_remove_object();
 		void btn_add_object();
+		void btn_read_robot_pos();
 		void on_timer();
 		void on_init();
+		void btn_read_robot_joint_pos();
+		void btn_read_force_sensor();
 
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		btn_sim_connect();
@@ -191,6 +233,15 @@ namespace opencvcoppelia {
 	}
 	private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
 		btn_add_object();
+	}
+	private: System::Void button6_Click(System::Object^ sender, System::EventArgs^ e) {
+		btn_read_robot_pos();
+	}
+	private: System::Void button7_Click(System::Object^ sender, System::EventArgs^ e) {
+		btn_read_robot_joint_pos();
+	}
+	private: System::Void button8_Click(System::Object^ sender, System::EventArgs^ e) {
+		btn_read_force_sensor();
 	}
 };
 }

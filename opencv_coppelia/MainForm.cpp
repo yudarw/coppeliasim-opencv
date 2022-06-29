@@ -11,10 +11,11 @@ using namespace opencvcoppelia;
 using namespace cv;
 
 CoppeliaSim mSim;
-CoppeliaRobot mRobot;
 
-CoppeliaSensor camera(vision_sensor, "/Vision_sensor");
-CoppeliaSensor proxSensor(proximity_sensor, "/Proximity_sensor");
+CoppeliaRobot	mRobot ("/UR10");
+CoppeliaSensor	camera(vision_sensor, "/eyeinhand_cam");
+CoppeliaSensor	proxSensor(proximity_sensor, "/Proximity_sensor");
+CoppeliaSensor  forceSensor(force_sensor, "/force_sensor");
 
 int clientId;
 int idCam, idProx;
@@ -56,9 +57,12 @@ void MainForm::on_timer() {
 void MainForm::btn_sim_connect() {
 	mSim.connect(19997);
 	clientId = mSim.clientID;
+
 	mSim.startSimulation();
 	camera.init();
 	proxSensor.init();
+	mRobot.init();
+	forceSensor.init();
 }
 
 
@@ -102,6 +106,25 @@ void MainForm::btn_sim_read_camera() {
 	//proxSensor.get_state();
 }
 
+void MainForm::btn_read_robot_pos() {
+	float pos[6];
+	mRobot.readPosition(pos);
+	printf("Robot pos: %.3f, %.3f, %.3f \n", pos[0], pos[1], pos[2]);
+}
+
+
+void MainForm::btn_read_robot_joint_pos() {
+	float pos[6];
+	mRobot.readJointPosition(pos);
+	printf("Robot joint pos: %.3f, %.3f, %.3f \n", pos[0], pos[1], pos[2]);
+}
+
+void MainForm::btn_read_force_sensor() {
+	float force[6];
+	forceSensor.read_force(force);
+	printf("Robot joint pos: %.3f, %.3f, %.3f \n", force[0], force[1], force[2]);
+}
+
 void MainForm::btn_remove_object() {
 	int handle = Convert::ToInt16(textBox1->Text);
 	simxRemoveObject(clientId, handle, simx_opmode_oneshot_wait);
@@ -110,8 +133,8 @@ void MainForm::btn_remove_object() {
 void MainForm::btn_add_object() {
 	int target_handle, pos_handle;
 	float pos[3];
-	simxGetObjectHandle(clientId, "/Cuboid", &target_handle, simx_opmode_oneshot_wait);
-	simxGetObjectHandle(clientId, "/object_position", &pos_handle, simx_opmode_oneshot_wait);
-	simxGetObjectPosition(clientId, pos_handle, -1, pos, simx_opmode_oneshot_wait);
+	simxGetObjectHandle(clientId, "/Cuboid", &target_handle, simx_opmode_blocking);
+	simxGetObjectHandle(clientId, "/object_position", &pos_handle, simx_opmode_blocking);
+	simxGetObjectPosition(clientId, pos_handle, -1, pos, simx_opmode_blocking);
 	mSim.addObject(target_handle, pos);
 }
