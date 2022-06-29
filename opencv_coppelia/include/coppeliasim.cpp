@@ -61,7 +61,7 @@ void CoppeliaSim::removeObject(int handle){
 
 
 // ==================================================================
-//					COPPELIASIM ROBOT CLASS
+// COPPELIASIM ROBOT CLASS
 // ==================================================================
 
 CoppeliaRobot::CoppeliaRobot(string names) {
@@ -414,7 +414,7 @@ void CoppeliaRobot::setSpeed(int velocity)
 
 
 //////////////////////////////////////////////////////////////////
-//					Coppelia Mobile Robot						//
+// Coppelia Mobile Robot				        //
 //////////////////////////////////////////////////////////////////
 
 CoppeliaRobotMobile::CoppeliaRobotMobile(int type, string name) {
@@ -464,7 +464,7 @@ void CoppeliaRobotMobile::move(float v_left, float v_right) {
 
 
 //////////////////////////////////////////////////////////////////
-//						Coppelia Sensor						    //
+// Coppelia Sensor					        //
 //////////////////////////////////////////////////////////////////
 
 CoppeliaSensor::CoppeliaSensor(int type, string name) 
