@@ -3,4 +3,10 @@ A coppelisim library that support integration with several type of robots and se
 
 ## Simulation
 
-![simulation](images/UI.PNG)
+![simulation](images/GUI.PNG)
+
+
+![simulation](images/simulation.PNG)
+
+
+![simulation](images/vision-sensor-detect.PNG)
