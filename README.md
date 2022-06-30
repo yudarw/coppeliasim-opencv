@@ -9,4 +9,4 @@ A coppelisim library that support integration with several type of robots and se
 ![simulation](images/simulation.PNG)
 
 
-![simulation](images/vision-sensor-detect.PNG)
+![simulation](images/vision-sensor-results.PNG)
